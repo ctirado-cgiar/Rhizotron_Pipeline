@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+*.pkl
+*.png
+*.jpg
+*.jpeg
+*.csv
+Trials/
+*.mp4

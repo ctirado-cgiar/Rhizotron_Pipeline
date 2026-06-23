@@ -1,0 +1,32 @@
+# ─── Roots Project BMFG - Rhizotrons ───────────────────────────────
+# Image processing, semantic root segmentation, and root trait extraction
+# from rhizotron images for quantitative Root System Architecture (RSA) phenotyping.
+# Authors: Cristian Ubaldo Tirado-Murcia*, Jorge Enrique Aragon Medina, Jose Arnulfo Polania Perdomo
+# *c.tirado@cgiar.org
+# Date: 2026-01-06
+
+pandas>=1.5.0
+
+# ============================================
+# Distortion correction using ArUco markers
+# ============================================
+tqdm>=4.65.0
+
+# ── Computer Vision ───────────────────────────────────────────
+opencv-python==4.12.0.88
+numpy==2.0.2
+Pillow==11.3.0
+matplotlib==3.9.4
+plantcv==4.10.2
+
+# ── Roboflow Inference (root_segmentation.py) ─────────────────
+inference==1.0.5
+
+# ── Utilities ─────────────────────────────────────────────────
+python-dotenv==1.2.1
+pyzbar==0.1.9
+
+# ── RSA Pipeline - Root Trait Extraction ──────────────────────
+scikit-image>=0.21.0
+scipy>=1.11.0
+networkx>=3.2.0
