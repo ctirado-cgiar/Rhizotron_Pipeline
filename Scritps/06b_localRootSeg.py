@@ -1,14 +1,15 @@
-#06_segmentacionIA.py
+#06b_localRootSeg.py
 """
 Script para segmentación semántica de raíces en imágenes de rizotrones.
-Modelo: Roboflow 2.0 Semantic Segmentation (rootseg-mmejg/1)
+Modelo: Roboflow 2.0 Semantic Segmentation (MODEL_PATH)
+Importante: Este scritp funciona si tiene el modeolo descargao y guardado en la carpeta de modelos locales.
 Genera:
 - Máscaras binarias PNG (mismo nombre que original)
 - Overlays visuales (imagen + máscara coloreada)
 
-Autor: Cristian Ubaldo Tirado Murcia
+Autor: Cristian Ubaldo Tirado-Murcia
 """
-
+#Por escribir la logica.
 from inference import get_model
 import cv2
 import numpy as np
@@ -22,10 +23,10 @@ import io
 # ─── CONFIG ──────────────────────────────────────────────────────
 load_dotenv()
 
-MODEL_ID        = "rootseg-mmejg/9"
+MODEL_PATH        = str(os.getenv("MODEL_PATH"))
 BASE            = os.path.dirname(os.getenv("CARPETA"))
-INPUT_FOLDER    = os.path.join(BASE, "05_patches")
-OUTPUT_FOLDER   = os.path.join(BASE, "06_segmentacionIA")
+INPUT_FOLDER    = os.path.join(BASE, "05_patchesGeneration")
+OUTPUT_FOLDER   = os.path.join(BASE, "06_rootSegmentation")
 CONFIDENCE      = 1
 
 OUT_MASKS    = os.path.join(OUTPUT_FOLDER, "masks")
@@ -35,8 +36,8 @@ for folder in [OUT_MASKS, OUT_OVERLAYS]:
     Path(folder).mkdir(parents=True, exist_ok=True)
 
 # ─── CARGAR MODELO ───────────────────────────────────────────────
-print(f"Cargando modelo: {MODEL_ID}")
-model = get_model(model_id=MODEL_ID, api_key=os.getenv("ROBOFLOW_API_KEY"))
+print(f"Cargando modelo: {MODEL_PATH}...")
+model = get_model(model_id=MODEL_PATH)
 
 # ─── IMÁGENES A PROCESAR ─────────────────────────────────────────
 extensiones_validas = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff'}

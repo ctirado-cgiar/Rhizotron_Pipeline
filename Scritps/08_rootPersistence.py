@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE    = os.path.dirname(os.getenv("CARPETA"))
-CARPETA = os.path.join(BASE, "07_MaskOverlay", "mask_clean")
+CARPETA = os.path.join(BASE, "07_patchesReconstruccion", "mask")
 OUT_DIR = Path(os.path.join(BASE, "08_rootPersistence"))
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -43,24 +43,24 @@ def agrupar_por_rizotron(carpeta: Path):
 rizotrones, grupos = agrupar_por_rizotron(Path(CARPETA))
 
 if not rizotrones:
-    print(f"No se encontraron mascaras con el patron '<prefijo>_DAS<numero>.png' en: {CARPETA}")
+    print(f"No masks found with the pattern '<prefix>_DAS<number>.png' in: {CARPETA}")
     exit()
 
-print(f"Rizotrones detectados ({len(rizotrones)}): {', '.join(rizotrones)}")
+print(f"Rhizotron detected ({len(rizotrones)}): {', '.join(rizotrones)}")
 
 for prefijo in rizotrones:
     mascaras = grupos[prefijo]
-    print(f"\n=== Rizotron {prefijo} — {len(mascaras)} imagenes ===")
+    print(f"\n=== Rhizotron {prefijo} — {len(mascaras)} images ===")
 
     # --- TAMANIO DE REFERENCIA: mediana de todas las imagenes de este rizotron ---
     altos  = [cv2.imread(str(r), cv2.IMREAD_GRAYSCALE).shape[0] for _, r in mascaras]
     anchos = [cv2.imread(str(r), cv2.IMREAD_GRAYSCALE).shape[1] for _, r in mascaras]
     H_ref  = int(np.median(altos))
     W_ref  = int(np.median(anchos))
-    print(f"Tamanio de referencia (mediana): {W_ref} x {H_ref} px")
+    print(f"Reference size (median): {W_ref} x {H_ref} px")
 
     # --- ACUMULACION ---
-    print(f"{'DAS':>5} {'Pixeles nuevos':>15} {'Pixeles acumulados':>20}")
+    print(f"{'DAS':>5} {'New pixels':>15} {'Accumulated pixels':>20}")
     print("-" * 45)
 
     acumulada = np.zeros((H_ref, W_ref), dtype=np.uint8)
@@ -83,4 +83,4 @@ for prefijo in rizotrones:
         cv2.imwrite(str(out), acumulada)
         print(f"{das:>5} {px_nuevos:>15,} {px_acum:>20,}")
 
-print(f"\nMascaras acumuladas en: {OUT_DIR}")
+print(f"\nCommulative masks saved in: {OUT_DIR}")

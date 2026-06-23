@@ -1,4 +1,4 @@
-# 07_maskOverlayReconstruccion.py
+# 07_patchesReconstruccion.py
 import os, re
 import cv2
 import numpy as np
@@ -13,11 +13,11 @@ RECONSTRUIR_MASK    = True
 RECONSTRUIR_OVERLAY = True
 
 BASE         = os.path.dirname(os.getenv("CARPETA"))
-SRC_ORIG     = os.path.join(BASE, "03_diaria")
-SRC_MASKS    = os.path.join(BASE, "06_segmentacionIA", "masks")
-SRC_OVERLAYS = os.path.join(BASE, "06_segmentacionIA", "overlays")
-DST_MASKS    = os.path.join(BASE, "07_maskOverlay", "mask")
-DST_OVERLAYS = os.path.join(BASE, "07_maskOverlay", "overlay")
+SRC_ORIG     = os.path.join(BASE, "03_dailySelection")
+SRC_MASKS    = os.path.join(BASE, "06_rootSegmentation", "masks")
+SRC_OVERLAYS = os.path.join(BASE, "06_rootSegmentation", "overlays")
+DST_MASKS    = os.path.join(BASE, "07_patchesReconstruction", "mask")
+DST_OVERLAYS = os.path.join(BASE, "07_patchesReconstruction", "overlay")
 PATCH_SIZE   = int(os.getenv("PATCH_SIZE", 512))
 
 if RECONSTRUIR_MASK:
@@ -39,12 +39,12 @@ for f in os.listdir(src_lectura):
     stem = Path(f).stem
     m = PATRON.match(stem)
     if not m:
-        print(f"  ADVERTENCIA: nombre mal formado, se omite -> {f}")
+        print(f"  WARNING: wrong format name, skipping -> {f}")
         continue
     base, y, x = m.group(1), int(m.group(2)), int(m.group(3))
     patches_por_imagen[base].append((y, x, f))
 
-print(f"Imágenes a reconstruir: {len(patches_por_imagen)}")
+print(f"Images to reconstruct: {len(patches_por_imagen)}")
 #verificar que no falte ningún patch para las imágenes seleccionadas
 def ya_existe(base):
     if RECONSTRUIR_MASK and not os.path.exists(os.path.join(DST_MASKS, base + ".png")):
@@ -56,14 +56,14 @@ def ya_existe(base):
 pendientes = {b: p for b, p in patches_por_imagen.items() if not ya_existe(b)}
 omitidas = len(patches_por_imagen) - len(pendientes)
 if omitidas:
-    print(f"  Omitidas (ya existen): {omitidas}")
-print(f"Imágenes pendientes por reconstruir: {len(pendientes)}")
+    print(f"  Skipped (already exist): {omitidas}")
+print(f"Images pending to reconstruct: {len(pendientes)}")
 
 patches_por_imagen = pendientes
 
 # ─── RECONSTRUCCIÓN ───────────────────────────────────────────────
 for base, patches in patches_por_imagen.items():
-    print(f"  Reconstruyendo: {base}")
+    print(f"  Reconstructing: {base}")
 
     # Leer dimensiones originales
     orig_path = None
@@ -74,7 +74,7 @@ for base, patches in patches_por_imagen.items():
             break
 
     if orig_path is None:
-        print(f"  ADVERTENCIA: no se encontró original para {base}, saltando...")
+        print(f"  WARNING: original image not found for {base}, skipping...")
         continue
 
     orig = cv2.imread(orig_path)
@@ -114,5 +114,5 @@ for base, patches in patches_por_imagen.items():
     print(f"  OK: {base} ({W}x{H})")
 
 print(f"\n{'='*60}")
-print("Reconstrucción completada!")
+print("Reconstruction completed!")
 print(f"{'='*60}")

@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE          = os.path.dirname(os.getenv("CARPETA"))
-SRC           = os.path.join(BASE, "01_homografia")
+SRC           = os.path.join(BASE, "01_homography")
 DST           = os.path.join(BASE, "02_rename")
 FECHA_SIEMBRA = datetime.datetime.strptime(os.getenv("FECHA_SIEMBRA"), "%Y-%m-%d")
 os.makedirs(DST, exist_ok=True)
@@ -76,4 +76,4 @@ for f in sorted(os.listdir(SRC)):
     shutil.copy2(path, os.path.join(DST, nombre))
     print(f"{f} -> 02_rename/{nombre}")
 
-print("¡Listo!")
+print("¡Ready!")

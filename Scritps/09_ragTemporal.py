@@ -45,10 +45,10 @@ def agrupar_por_rizotron(carpeta: Path):
 rizotrones, grupos = agrupar_por_rizotron(Path(CARPETA))
 
 if not rizotrones:
-    print(f"No se encontraron mascaras con el patron '<prefijo>_DAS<numero>.png' en: {CARPETA}")
+    print(f"Mask not found with the pattern '<prefix>_DAS<number>.png' in: {CARPETA}")
     exit()
 
-print(f"Rizotrones detectados ({len(rizotrones)}): {', '.join(rizotrones)}")
+print(f"Rhizotron detected ({len(rizotrones)}): {', '.join(rizotrones)}")
 
 # --- FUNCIONES ---
 def extraer_componentes(mask, das):
@@ -103,7 +103,7 @@ def costo_arista(ca, cb):
 # --- PROCESAR CADA RIZOTRON ---
 for prefijo in rizotrones:
     mascaras = grupos[prefijo]
-    print(f"\n=== Rizotron {prefijo} — {len(mascaras)} imagenes ===")
+    print(f"\n=== Rhizotron {prefijo} — {len(mascaras)} images ===")
 
     G = nx.DiGraph()
     serie = []
@@ -116,7 +116,7 @@ for prefijo in rizotrones:
         for c in comps:
             G.add_node(c["id"], **c)
 
-        print(f"  DAS{das:>3}: {len(comps)} componentes")
+        print(f"  DAS{das:>3}: {len(comps)} components")
 
     # --- CONECTAR DIAS CONSECUTIVOS CON ALGORITMO HUNGARO ---
     for i in range(len(serie) - 1):
@@ -141,19 +141,19 @@ for prefijo in rizotrones:
                 G.add_edge(ca_list[f]["id"], cb_list[c]["id"],
                           costo=round(matriz[f, c], 4))
 
-    print(f"  Grafo: {G.number_of_nodes()} nodos, {G.number_of_edges()} aristas")
+    print(f"  Graph: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 
     # --- IDENTIFICAR PIVOTANTE: componente mas arriba en primer DAS ---
     primer_das = serie[0]["das"]
     comps_primer_das = [c for c in serie[0]["comps"] if c["area_px"] >= 100]
 
     if not comps_primer_das:
-        print(f"  AVISO: sin componentes validos en DAS{primer_das}, se omite {prefijo}")
+        print(f"  WARNING: no valid components found in DAS{primer_das}, skipping {prefijo}")
         continue
 
     origen = min(comps_primer_das, key=lambda x: x["cy"])
     origen_id = origen["id"]
-    print(f"  Origen pivotante: {origen_id} (area={origen['area_px']} px, cy={origen['cy']:.3f})")
+    print(f"  Pivot node: {origen_id} (area={origen['area_px']} px, cy={origen['cy']:.3f})")
 
     camino_pivotante = [origen_id]
     nodo_actual = origen_id
@@ -172,17 +172,17 @@ for prefijo in rizotrones:
         cx_ref = mejor_data["cx"]
         nodo_actual = mejor_nodo
 
-    print(f"  Camino pivotante: {len(camino_pivotante)} nodos")
+    print(f"  Pivot path: {len(camino_pivotante)} nodes")
 
     # --- GUARDAR GRAFO Y CADENA PIVOTANTE ---
     out_grafo = OUT_DIR / f"{prefijo}_grafo.pkl"
     with open(out_grafo, "wb") as f:
         pickle.dump(G, f)
 
-    out_pivotante = OUT_DIR / f"{prefijo}_pivotante.pkl"
+    out_pivotante = OUT_DIR / f"{prefijo}_pivotant.pkl"
     with open(out_pivotante, "wb") as f:
         pickle.dump(camino_pivotante, f)
 
-    print(f"  Guardado: {out_grafo.name}, {out_pivotante.name}")
+    print(f"  saved: {out_grafo.name}, {out_pivotante.name}")
 
-print(f"\nProcesamiento completo. Resultados en: {OUT_DIR}")
+print(f"\nProcessing complete. Results in: {OUT_DIR}")

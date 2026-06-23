@@ -1,12 +1,12 @@
-# 05_patches.py
+# 05_patchesGeneration.py
 import os, cv2
 from dotenv import load_dotenv
 
 load_dotenv()
 
 BASE       = os.path.dirname(os.getenv("CARPETA"))
-SRC        = os.path.join(BASE, "03_diaria")
-DST        = os.path.join(BASE, "05_patches")
+SRC        = os.path.join(BASE, "03_dailySelection")
+DST        = os.path.join(BASE, "05_patchesGeneration")
 PATCH_SIZE = int(os.getenv("PATCH_SIZE", 512))
 OVERLAP    = int(os.getenv("OVERLAP", 32))
 MIN_VAR    = float(os.getenv("MIN_VARIANZA", 50))
@@ -50,4 +50,4 @@ for f in sorted(os.listdir(SRC)):
 
     print(f"{f} -> {saved} patches")
 
-print("¡Listo!")
+print("¡Ready!")

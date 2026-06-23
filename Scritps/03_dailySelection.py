@@ -1,4 +1,4 @@
-# 03_diaria.py
+# 03_dailySelection.py
 import os, re, shutil, cv2
 import numpy as np
 from dotenv import load_dotenv
@@ -7,7 +7,7 @@ load_dotenv()
 
 BASE = os.path.dirname(os.getenv("CARPETA"))
 SRC  = os.path.join(BASE, "02_rename")
-DST  = os.path.join(BASE, "03_diaria")
+DST  = os.path.join(BASE, "03_dailySelection")
 os.makedirs(DST, exist_ok=True)
 
 def brillo(path):
@@ -44,4 +44,4 @@ for clave, archivos_dia in sorted(por_dia.items()):
     shutil.copy2(os.path.join(SRC, elegida), os.path.join(DST, nombre))
     print(f"OK: {elegida} -> {nombre}")
 
-print(f"\n{len(por_dia)} imágenes seleccionadas.")
+print(f"\n{len(por_dia)} images selected.")

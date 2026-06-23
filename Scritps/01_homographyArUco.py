@@ -1,4 +1,4 @@
-# 01_homografia.py
+# 01_homographyArUco.py
 import os, cv2, struct
 import numpy as np
 from dotenv import load_dotenv
@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SRC    = os.getenv("CARPETA")
-DST    = os.path.join(os.path.dirname(SRC), "01_homografia")
+DST    = os.path.join(os.path.dirname(SRC), "01_homography")
 MARGEN = int(os.getenv("MARGEN", 10))
 os.makedirs(DST, exist_ok=True)
 
@@ -32,7 +32,7 @@ for f in archivos:
     esq  = get_esquinas(img)
 
     if esq is None:
-        print(f"NOARUCO (ignorada): {f}")
+        print(f"NOARUCO (skipped): {f}")
         
         continue
 
@@ -59,4 +59,4 @@ for f in archivos:
     cv2.imwrite(os.path.join(DST, f), result)
     print(f"OK: {f} -> {W_out}x{H_out} px")
 
-print("¡Listo!")
+print("¡Ready!")

@@ -1,4 +1,4 @@
-# 04_calibradas.py
+# 04_calibrationColor.py
 import os, cv2, warnings
 import numpy as np
 from plantcv import plantcv as pcv
@@ -10,8 +10,8 @@ pcv.params.debug   = None
 pcv.params.verbose = False
 
 BASE   = os.path.dirname(os.getenv("CARPETA"))
-SRC    = os.path.join(BASE, "03_diaria")
-DST    = os.path.join(BASE, "04_calibradas")
+SRC    = os.path.join(BASE, "03_dailySelection")
+DST    = os.path.join(BASE, "04_calibrationColor")
 ESCALA = 0.1
 POS    = int(os.getenv("COLOR_POS", 3))  # probar 0,1,2,3
 os.makedirs(DST, exist_ok=True)
@@ -43,4 +43,4 @@ for f in sorted(os.listdir(SRC)):
     except Exception as e:
         print(f"ERROR: {f} -> {e}")
 
-print("¡Listo!")
+print("¡Ready!")

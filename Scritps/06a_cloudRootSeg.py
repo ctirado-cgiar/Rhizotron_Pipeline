@@ -1,12 +1,13 @@
-#06_segmentacionIA.py
+#06a_cloudRootSeg.py
 """
 Script para segmentación semántica de raíces en imágenes de rizotrones.
-Modelo: Roboflow 2.0 Semantic Segmentation (rootseg-mmejg/1)
+Modelo: Roboflow 2.0 Semantic Segmentation (MODEL_ID)
+Importante: conectado por API a Roboflow Inference
 Genera:
 - Máscaras binarias PNG (mismo nombre que original)
 - Overlays visuales (imagen + máscara coloreada)
 
-Autor: Cristian Ubaldo Tirado Murcia
+Autor: Cristian Ubaldo Tirado-Murcia
 """
 
 from inference import get_model
@@ -22,10 +23,10 @@ import io
 # ─── CONFIG ──────────────────────────────────────────────────────
 load_dotenv()
 
-MODEL_ID        = "rootseg-mmejg/9"
+MODEL_ID        = str(os.getenv("MODEL_ID"))
 BASE            = os.path.dirname(os.getenv("CARPETA"))
-INPUT_FOLDER    = os.path.join(BASE, "05_patches")
-OUTPUT_FOLDER   = os.path.join(BASE, "06_segmentacionIA")
+INPUT_FOLDER    = os.path.join(BASE, "05_patchesGeneration")
+OUTPUT_FOLDER   = os.path.join(BASE, "06_rootSegmentation")
 CONFIDENCE      = 1
 
 OUT_MASKS    = os.path.join(OUTPUT_FOLDER, "masks")
@@ -35,7 +36,7 @@ for folder in [OUT_MASKS, OUT_OVERLAYS]:
     Path(folder).mkdir(parents=True, exist_ok=True)
 
 # ─── CARGAR MODELO ───────────────────────────────────────────────
-print(f"Cargando modelo: {MODEL_ID}")
+print(f"loading model: {MODEL_ID}")
 model = get_model(model_id=MODEL_ID, api_key=os.getenv("ROBOFLOW_API_KEY"))
 
 # ─── IMÁGENES A PROCESAR ─────────────────────────────────────────
@@ -61,18 +62,18 @@ for f in os.listdir(INPUT_FOLDER):
     imagenes.append(f)
 #Hasta aquí, 'imagenes' contiene solo los archivos que no tienen máscara generada, evitando reprocesar los ya hechos.
 print(f"\n{'='*60}")
-print(f"Encontradas {len(imagenes)} imágenes para procesar")
+print(f"{len(imagenes)} images to process found")
 print(f"{'='*60}\n")
 
 # ─── LOOP PRINCIPAL ──────────────────────────────────────────────
 for idx, imagen_nombre in enumerate(imagenes, 1):
-    print(f"[{idx}/{len(imagenes)}] Procesando: {imagen_nombre}")
+    print(f"[{idx}/{len(imagenes)}] Processing: {imagen_nombre}")
 
     ruta_imagen = os.path.join(INPUT_FOLDER, imagen_nombre)
     image = cv2.imread(ruta_imagen)
 
     if image is None:
-        print(f"  ⚠️  Error al leer {imagen_nombre}, saltando...")
+        print(f"  ⚠️  Error to read {imagen_nombre}, skipping...")
         continue
 
     h, w = image.shape[:2]
@@ -88,7 +89,7 @@ for idx, imagen_nombre in enumerate(imagenes, 1):
             # Decodificar PNG base64 → array numpy
             mask_bytes = base64.b64decode(pred.segmentation_mask)
             mask_pil = Image.open(io.BytesIO(mask_bytes)).convert('L')  # grayscale
-            mask_arr = np.array(mask_pil)  # valores: 0=background, 1=Raiz
+            mask_arr = np.array(mask_pil)  # valores: 0=background, 1=Root
 
             # Escalar al tamaño original si difiere
             if mask_arr.shape != (h, w):
@@ -110,14 +111,14 @@ for idx, imagen_nombre in enumerate(imagenes, 1):
         cv2.imwrite(overlay_path, blended)
 
         pixels_raiz = int(np.sum(mask_binaria == 255))
-        print(f"  ✓ Máscara guardada | píxeles raíz: {pixels_raiz}")
+        print(f"  ✓ Mask saved | root pixels: {pixels_raiz}")
 
     except Exception as e:
-        print(f"  ✗ Error en inferencia: {e}")
+        print(f"  ✗ Error in inference: {e}")
         continue
 
 print(f"\n{'='*60}")
-print("✓ Proceso completado!")
+print("✓ Process completed!")
 print(f"  Masks    → {OUT_MASKS}")
 print(f"  Overlays → {OUT_OVERLAYS}")
 print(f"{'='*60}")
