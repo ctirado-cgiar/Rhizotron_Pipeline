@@ -170,7 +170,7 @@ Palmira, Colombia
 ---
 
 ## Founding
-
+This research was carried out within the framework of the Breakthrough project, supported by the **Gates Foundation.**
 
 ---
 ## License
