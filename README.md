@@ -161,7 +161,9 @@ Citation information will be available once the manuscript and pipeline document
 ## Authors
 
 **Cristian Tirado-Murcia** - c.tirado@cgiar.org  
+
 **Jorge Aragón Medina**    - j.aragon@cgiar.org
+
 **José Polania**           - j.polania@cgiar.org
 
 Alliance of Bioversity International & CIAT — Bean Program  
