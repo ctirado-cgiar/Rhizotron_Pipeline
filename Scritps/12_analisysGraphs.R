@@ -41,11 +41,11 @@ N_COL_ESQUEMAS <- NULL   # NULL = se calcula automaticamente segun N_ROW_ESQUEMA
 # RUTAS DERIVADAS (no editar)
 # ============================================================
 CARPETA_DATOS  <- file.path(CARPETA_BASE, "11_rasgos")
-CARPETA_SALIDA <- file.path(CARPETA_BASE, "analisisdatos")
+CARPETA_SALIDA <- file.path(CARPETA_BASE, "12_analisysGraphs")
 
-path_temporal  <- file.path(CARPETA_DATOS, "rasgos_temporales.csv")
-path_desempeno <- file.path(CARPETA_DATOS, "rasgos_desempeno.csv")
-path_angulos   <- file.path(CARPETA_DATOS, "angulos_laterales.csv")
+path_temporal  <- file.path(CARPETA_DATOS, "traits_temporals.csv")
+path_desempeno <- file.path(CARPETA_DATOS, "traits_performance.csv")
+path_angulos   <- file.path(CARPETA_DATOS, "angles_laterals.csv")
 
 dir.create(CARPETA_SALIDA, recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path(CARPETA_SALIDA, "esquemas_individuales"),
