@@ -62,9 +62,19 @@ Raw images
     │
     ▼
 11_globalTraitsExtraction.py   Extraction of 20+ RSA traits per unit and DAS
-                               → rasgos_temporales.csv
-                               → rasgos_desempeno.csv
-                               → angulos_laterales.csv
+                               → traits_temporals.csv
+                               → traits_performance.csv
+                               → angles_laterals.csv
+    │
+    ▼                              
+12_analisysGraphs.r       Statistical analysis and figure generation in R:
+                          summary table and three figures (penetration
+                          scatter, root coverage profile, root architecture
+                          schemes) by genotype, generated dynamically from
+                          → tabla3_performance_genotipo.png
+                          → scatter_penetracion.png
+                          → perfil_cobertura.png
+                          → esquemas_panel.png + esquemas_individuales/
 ```
 
 ---
@@ -73,9 +83,10 @@ Raw images
 
 | File | Description |
 |------|-------------|
-| `rasgos_temporales.csv` | Root system traits per experimental unit and DAS |
-| `rasgos_desempeno.csv` | Summary performance indicators per unit across the full trial |
-| `angulos_laterales.csv` | Individual lateral root measurements: insertion angle, length, depth zone |
+| `traits_temporals.csv` | Root system traits per experimental unit and DAS |
+| `traits_performance.csv` | Summary performance indicators per unit across the full trial |
+| `angles_laterals.csv` | Individual lateral root measurements: insertion angle, length, depth zone |
+| `12_analisysGraphs/` (R outputs) | Summary statistics table and figures by genotype, derived from the three CSV databases above |
 
 ---
 
