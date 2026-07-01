@@ -6,8 +6,6 @@ Importante: Este scritp funciona si tiene el modelo descargado y guardado en la 
 Genera:
 - Máscaras binarias PNG (mismo nombre que original)
 - Overlays visuales (imagen + máscara coloreada)
-
-Autor: Cristian Ubaldo Tirado-Murcia
 """
 #Por escribir la logica.
 from inference import get_model
