@@ -25,9 +25,9 @@ library(scales)
 # ============================================================
 
 # Carpeta base del ensayo. De aqui se derivan automaticamente:
-#   <CARPETA_BASE>/11_rasgos/       -> donde estan los 3 CSV de entrada
-#   <CARPETA_BASE>/analisisdatos/   -> donde se guardan las figuras
-CARPETA_BASE <- "D:/OneDrive - CGIAR/Frijol/Procesamiento/Roots/Trial/BMFG_Validation/"
+#   <CARPETA_BASE>/11_globalTraitsExtraction/       -> donde estan los 3 CSV de entrada
+#   <CARPETA_BASE>/12_analisysGraphs/   -> donde se guardan las figuras
+CARPETA_BASE <- "PATH/YOUR/PROJECT/"
 
 # Layout del panel de perfil de cobertura por zonas - un genotipo por celda
 N_ROW_PERFIL <- 1
