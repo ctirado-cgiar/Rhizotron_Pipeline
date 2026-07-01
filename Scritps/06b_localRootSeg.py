@@ -2,7 +2,7 @@
 """
 Script para segmentación semántica de raíces en imágenes de rizotrones.
 Modelo: Roboflow 2.0 Semantic Segmentation (MODEL_PATH)
-Importante: Este scritp funciona si tiene el modeolo descargao y guardado en la carpeta de modelos locales.
+Importante: Este scritp funciona si tiene el modelo descargado y guardado en la carpeta de modelos locales.
 Genera:
 - Máscaras binarias PNG (mismo nombre que original)
 - Overlays visuales (imagen + máscara coloreada)
