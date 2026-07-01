@@ -6,8 +6,6 @@ Importante: conectado por API a Roboflow Inference
 Genera:
 - Máscaras binarias PNG (mismo nombre que original)
 - Overlays visuales (imagen + máscara coloreada)
-
-Autor: Cristian Ubaldo Tirado-Murcia
 """
 
 from inference import get_model
